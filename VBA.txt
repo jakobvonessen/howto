@@ -1,0 +1,263 @@
+ARRAYS
+	https://stackoverflow.com/questions/20049357/vba-use-string-as-variable-name
+
+KEYBOARD SHORTCUTS FOR MACRO X
+	Open Macros, select X, press Options.
+	
+CELL STYLE
+	MERGE/UNMERGE
+		Range("C3:D5").Merge
+		Range("C2:D6").UNMERGE
+	CHOOSE SPECIFIC STYLE
+		Range("C2:C6").Style = "Good" ' Default: "Normal"
+	REMOVE STYLE
+		Range("C2:C6").ClearFormats
+	
+CHANGE FONT AND TEXT SIZE IN EDITOR
+	(menu)Tools
+		Options...
+			(tab)Editor Format
+				Font
+					Verdana (Baltic)
+				Size
+					23
+				
+	
+VARIABLES
+	Dim sko As Integer, sko2 As String, sko3 As Range
+
+RANGES
+	Set sko3 = sheets("sheet1").Range("C3:C21")
+	CHOOSE SPECIFIC ROW IN RANGE
+		sko3(2)
+	CHOOSE MULTIPLE ROWS IN RANGE
+		sko3.Rows("3:5")
+	NAMED RANGES
+		VALUE IN ROW X, COLUMN Y OF RANGE NAMED "RANGE_NAME"
+			ThisWorkbook.Names("RANGE_NAME").RefersToRange(X, Y)
+		NUMBER OF ROWS IN RANGE NAMED "RANGE_NAME"
+			Application.Evaluate("=rows(RANGE_NAME)")
+		
+
+byton
+LOOP THROUGH ROWS IN SINGLE-WIDTH RANGE
+	For Each cell In Range("F6:F80")
+		msgbox(cell.value)
+	Next cell
+	
+DISABLE FLASHING
+	Application.ScreenUpdating = False
+
+EXIT SUB
+	End Sub
+
+GET CELL ADDRESS, e.g. "C3"
+	Range("C3").Address(RowAbsolute:=False, ColumbAbsolute:=False)
+	
+CONVERT BETWEEN TYPES
+	CDbl
+	CStr
+	CInt
+	
+GET WHOLE NUMBER OR DECIMALS
+	Dim sko As Double
+	sko = 25.55555
+	Int(sko)
+	sko - Int(sko)
+	
+	CLOSE/OPEN OTHER WORKSHEET:http://www.excel-easy.com/vba/examples/close-open.html, https://msdn.microsoft.com/en-us/vba/excel-vba/articles/workbook-close-method-excel
+ActiveWorkbook.Close 
+Workbooks.Open ("D:\Drive\excel.xlsm")
+
+Loop through validation list:
+Sub copydata()
+    Dim listCell As Range, cell As Range, listRange As Range
+    Set sh = ActiveWorkbook.Sheets("Calcs")
+    Set listCell = sh.Range("C1")
+    Set listRange = Evaluate(Range(listCell).Validation.Formula1)
+    For Each cell In listRange
+        
+    Next cell
+End Sub
+
+
+Go through all files in folder: https://stackoverflow.com/questions/11152870/macro-open-all-files-in-a-folder
+Sub OpenFiles()
+	Dim MyFolder As String
+	Dim MyFile As String
+	MyFolder = "D:\Drive"
+	MyFile = Dir(MyFolder & "\*.xlsx") '.xlsm
+	Do While MyFile <> ""
+		Workbooks.Open Filename:=MyFolder & "\" & MyFile
+	Loop
+End Sub
+
+Get current working directory: https://stackoverflow.com/questions/19824164/how-to-get-current-working-directory-using-vba
+path = ActiveWorkbook.Path '"D:\Drive"
+
+Open other worksheet and ignore update links dialog: https://stackoverflow.com/questions/14908372/how-to-suppress-update-links-warning
+Workbooks.Open ("D:\Drive\excel.xlsm"), UpdateLinks:False
+
+With stuff: https://docs.microsoft.com/en-us/dotnet/visual-basic/language-reference/statements/with-end-with-statement
+With ActiveWorkbook
+	sko = .Name
+	path = .Path
+	With .Range("C4")
+		.Value = 6
+	End With
+End With
+
+Run macro in other worksheet: https://stackoverflow.com/questions/15200349/trying-to-open-a-workbook-and-a-run-a-macro-in-that-file
+strSubToRun = "findBest" 'macro name
+Set wb = Workbooks.Open(Location & Range("fv_file").Value) 'or use "ActiveWorkbook" in place of "wb" below
+Application.Run "'" & wb.Name & "'!" & strSubToRun, Parameters
+
+IndexOf: https://www.techonthenet.com/excel/formulas/instr.php
+text = "Hejsan Johan"
+InStr(text,"H") '=1
+InStr(text,"h") '=10, i.e. case sensitive
+
+Substring: https://www.exceltrick.com/formulas_macros/vba-substring-function/
+text = "Hejsan Johan"
+Left (text,6) '="Hejsan"
+Right (text,5) '="Johan"
+
+Save As: https://analysistabs.com/excel-vba/save-workbook-to-specific-folder/
+ActiveWorkbook.SaveAs FileName:="Hejsan.xlsm"
+ActiveWorkbook.SaveAs FileName:="D:\Drive\2\Hejsan.xlsm" 'Mappen "2" måste finnas först.
+
+Save all graphs in document as PNG:
+Loop through worksheets: https://support.microsoft.com/sv-se/help/142126/macro-to-loop-through-all-worksheets-in-a-workbook
+Export ActiveChart:      https://www.mrexcel.com/forum/excel-questions/530130-vba-code-export-chart-png.html
+Chart title:             https://stackoverflow.com/questions/29616464/vba-adding-chart-title
+
+'--------------------------
+Public folderName As String
+Sub copypicture()
+    Dim co As ChartObject
+    Dim i As Integer, j As Integer, fI As Integer
+    Dim ws As Worksheet, origws As Worksheet
+    Dim invalid As String, filnamn As String, mappnamn As String
+    fel = "/"
+    If folderName = "" Then
+        mappnamn = GetFolder()
+        folderName = mappnamn
+    End If
+    mappnamn = folderName
+    Set origws = Application.ActiveSheet
+    For j = 1 To Worksheets.Count
+        Set ws = Worksheets(j)
+        ws.Activate
+        i = 1
+        For Each co In ws.ChartObjects
+            co.Activate
+            With ActiveChart
+                filnamn = mappnamn & "\" & ws.Name & Str(i) & ".png"
+                .Export (filnamn)
+            End With
+            i = i + 1
+        Next
+    Next
+    origws.Activate
+End Sub
+Function GetFolder() As String
+    Dim fldr As FileDialog
+    Dim sItem As String
+    Set fldr = Application.FileDialog(msoFileDialogFolderPicker)
+    With fldr
+        .Title = "Select a Folder"
+        .AllowMultiSelect = False
+        .InitialFileName = Application.DefaultFilePath
+        If .Show <> -1 Then GoTo NextCode
+        sItem = .SelectedItems(1)
+    End With
+NextCode:
+    GetFolder = sItem
+    Set fldr = Nothing
+End Function
+'--------------------------
+
+
+
+	
+CHECK IF VARIABLE IS UNDEFINED
+| Type                                 | Test                            | Test2
+| Numeric (Long, Integer, Double etc.) | If obj.Property = 0 Then        | 
+| Boolen (True/False)                  | If Not obj.Property Then        | If obj.Property = False Then
+| Object/Range                         | If obj.Property Is Nothing Then |
+| String                               | If obj.Property = "" Then       | If LenB(obj.Property) = 0 Then
+| Variant                              | If obj.Property = Empty Then    |
+	
+SUBS
+	
+	REACT TO CHANGES IN RANGE OF CELLS
+		Private Sub Worksheet_Change(ByVal Target As Range)
+			Dim KeyCells As Range
+			Set KeyCells = Range("C3:C10")
+			If Not Application.Intersect(KeyCells, Range(Target.Address)) Is Nothing Then
+			  MsgBox ("Här händer det grejer.")
+			End If
+		End Sub
+
+	
+	CHANGE WEIGHTS OF EVERY LINE IN SELECTED GRAPH
+		Sub ChangeCharts()
+			Dim srs As Series
+			Dim answer As Variant
+			answer = InputBox("Enter line weight.")
+			For Each srs In ActiveChart.SeriesCollection
+				srs.Format.Line.Weight = CDbl(answer)
+			Next
+		End Sub
+
+	CHECK IF STRING IS ONLY LETTERS (DOESN'T WORK WITH ÅÄÖ)
+	Function IsLetter(strValue As String) As Boolean
+    Dim intPos As Integer
+    For intPos = 1 To Len(strValue)
+        Select Case Asc(Mid(strValue, intPos, 1))
+            Case 65 To 90, 97 To 122
+                IsLetter = True
+            Case Else
+                IsLetter = False
+                Exit For
+        End Select
+    Next
+	End Function
+	
+	
+	
+	POWERPOINT
+	Add all images from a folder to separate slides, and a "home" button to get to the first slide.
+	
+	Sub ImportImages()
+    Dim strTemp As String
+    Dim strPath As String
+    Dim strFileSpec As String
+    Dim oSld As Slide
+    Dim oPic As Shape
+    Dim oShp As Shape
+    
+    
+    strPath = "C:\Drive\Dropbox (Resynergi)\PLC\HMI Graphics\HMI screenshots\"
+    strFileSpec = "*.PNG"
+    strTemp = Dir(strPath & strFileSpec)
+    If ActivePresentation.Slides.Count = 0 Then
+        Set oSld = ActivePresentation.Slides.Add(ActivePresentation.Slides.Count + 1, ppLayoutBlank)
+        Do While strTemp <> ""
+            Set oSld = ActivePresentation.Slides.Add(ActivePresentation.Slides.Count + 1, ppLayoutBlank)
+            
+            Set oShp = oSld.Shapes.AddShape(msoShapeLeftArrow, 20, ActivePresentation.PageSetup.SlideHeight / 2 - 10, 150, 50)
+            oShp.Fill.BackColor.RGB = RGB(0, 200, 0)
+            With oShp.ActionSettings(ppMouseClick)
+                .Action = ppActionHyperlink
+                .Hyperlink.SubAddress = 1
+            End With
+            Set oPic = oSld.Shapes.AddPicture(filename:=strPath & strTemp, LinkToFile:=msoFalse, SaveWithDocument:=msoTrue, Left:=0, Top:=0, Width:=-1, Height:=-1)
+            With oPic
+                .Left = ActivePresentation.PageSetup.SlideWidth / 2 - .Width / 2
+                .Top = ActivePresentation.PageSetup.SlideHeight / 2 - .Height / 2
+            End With
+            strTemp = Dir
+        Loop
+    End If
+End Sub
