@@ -1,0 +1,6 @@
+Book: 
+	https://static1.squarespace.com/static/5019271be4b0807297e8f404/t/52ca85ebe4b04a45ef2c9c97/1389004267685/Rob+Miles+CSharp+Yellow+Book+2014.pdf
+Video tutorial series:
+	https://channel9.msdn.com/Series/C-Sharp-Fundamentals-Development-for-Absolute-Beginners
+Udemy course (free, bought):
+	https://www.udemy.com/understandingc/learn/v4/overview

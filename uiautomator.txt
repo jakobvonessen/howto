@@ -1,0 +1,8 @@
+import os
+from uiautomator import device as d
+
+os.environ.__setitem__('ANDROID_HOME',r'C:\Users\hello\AppData\Local\Android\Sdk')
+os.environ.update()
+
+dump = d.dump()
+print(dump)

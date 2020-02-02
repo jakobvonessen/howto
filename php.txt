@@ -1,0 +1,7 @@
+Google Spreadsheets:
+	https://developers.google.com/sheets/api/guides/values
+file_get_contents doesn't work on server:
+	use
+		file_get_contents("http://jakobve.com/file.php")
+	instead of 
+		file_get_contents("file.php")

@@ -1,0 +1,369 @@
+import unittest
+
+from tire_pressure_monitoring import *
+from sensor import *
+
+class AlarmTest(unittest.TestCase):
+
+    def test_alarm_is_off_by_default(self):
+        alarm = Alarm()
+        assert not alarm.is_alarm_on
+
+
+    def test_alarm_if_below_threshold(self):
+        alarm = Alarm()
+        alarm._sensor = MockSensor(16)
+        alarm.check()
+        assert alarm.is_alarm_on
+
+    def test_alarm_if_high_threshold(self):
+        alarm = Alarm()
+        alarm._sensor = MockSensor(22)
+        alarm.check()
+        assert alarm.is_alarm_on
+
+    def test_alarm_if_between_threshold(self):
+        alarm = Alarm()
+        alarm._sensor = MockSensor(18)
+        alarm.check()
+        assert not alarm.is_alarm_on
+
+
+
+from gi.overrides import override
+
+from sensor import *
+
+class Alarm(object):
+
+    def __init__(self):
+        self._low_pressure_threshold = 17
+        self._high_pressure_threshold = 21
+        self._sensor = Sensor()
+        self._is_alarm_on = False
+        
+    def check(self):
+        psi_pressure_value = self._sensor.pop_next_pressure_psi_value()
+        if psi_pressure_value < self._low_pressure_threshold \
+                or self._high_pressure_threshold < psi_pressure_value:
+            self._is_alarm_on = True
+
+    @property
+    def is_alarm_on(self):
+        return self._is_alarm_on
+
+import random
+
+
+
+class Sensor(object):
+
+    # The reading of the pressure value from the sensor is simulated in this implementation.
+    # Because the focus of the exercise is on the other class.
+
+    _OFFSET = 16
+        
+    def pop_next_pressure_psi_value(self):
+        pressure_telemetry_value = self.sample_pressure()
+        return Sensor._OFFSET + pressure_telemetry_value
+
+    @staticmethod
+    def sample_pressure():
+        # placeholder implementation that simulate a real sensor in a real tire
+        pressure_telemetry_value = 6 * random.random() * random.random()
+        return pressure_telemetry_value
+
+
+class MockSensor(Sensor):
+
+    def __init__(self, pressure):
+        self.pressure = pressure
+
+    def pop_next_pressure_psi_value(self):
+        return self.pressure
+
+
+poker.py
+from Hand import Hand
+from Deck import Deck
+from Player import Player
+
+hands = []
+scores = []
+deck = Deck()
+players = []
+for i in range(2):
+    hand = Hand()
+    hand.setup(deck)
+    player = Player(hand)
+    score = player.getScore()
+    scores.append(score)
+    hands.append(hand.hand)
+
+print(scores, hands)
+print("Player %s won!" % (scores.index(max(scores)) + 1))
+
+pokertest.py
+import unittest
+from Deck import Deck
+from Hand import Hand
+from Player import Player
+
+
+class MyTestCase(unittest.TestCase):
+    def testThatNewDeckContains52Cards(self):
+        deck = Deck()
+        numberOfCardsInDeck = deck.getNumberOfCards()
+        self.assertEqual(numberOfCardsInDeck, 52)
+
+    def testThatCardCanBePulled(self):
+        deck = Deck()
+        numberOfCardsFromTheStart = deck.getNumberOfCards()
+        deck.pullRandomCard()
+        self.assertNotEqual(deck.getNumberOfCards(), numberOfCardsFromTheStart)
+
+    def testAddingAllHands(self):
+        deck, hand = self.setupDeck()
+        hand.setup(deck)
+        self.assertEqual(deck.getNumberOfCards(),47)
+        self.assertEqual(len(hand.hand),5)
+
+    def testStraightFlush(self):
+        deck, hand = self.setupDeck()
+        hand.setHand(deck, "S0 S1 S2 S4 S3".split(" "))
+        player = Player(hand)
+        self.assertEqual(player.getScore()[0], 9)
+        self.assertEqual(player.getScore()[1], 4)
+
+    def testFourOfAKind(self):
+        deck, hand = self.setupDeck()
+        hand.setHand(deck, "D0 H0 S0 C0 H4".split(" "))
+        player = Player(hand)
+        self.assertEqual(player.getScore()[0], 8)
+        self.assertEqual(player.getScore()[1], 0)
+
+    def testFullHouse(self):
+        deck, hand = self.setupDeck()
+        hand.setHand(deck, "D4 H4 S4 C3 H3".split(" "))
+        player = Player(hand)
+        self.assertEqual(player.getScore()[0], 7)
+        self.assertEqual(player.getScore()[1], 4)
+
+    def testFlush(self):
+        deck, hand = self.setupDeck()
+        hand.setHand(deck, "D11 D4 D3 D2 D0".split(" "))
+        player = Player(hand)
+        self.assertEqual(player.getScore()[0], 6)
+        self.assertEqual(player.getScore()[1], 11)
+
+    def testStraight(self):
+        deck, hand = self.setupDeck()
+        hand.setHand(deck, "D3 D2 S1 D4 H5".split(" "))
+        player = Player(hand)
+        self.assertEqual(player.getScore()[0], 5)
+        self.assertEqual(player.getScore()[1], 5)
+
+    def testThreeOfAKind(self):
+        deck, hand = self.setupDeck()
+        hand.setHand(deck, "D3 S3 H3 D4 H5".split(" "))
+        player = Player(hand)
+        self.assertEqual(player.getScore()[0], 4)
+        self.assertEqual(player.getScore()[1], 3)
+
+    def testTwoPairs(self):
+        deck, hand = self.setupDeck()
+        hand.setHand(deck, "D3 S3 H4 D4 H10".split(" "))
+        player = Player(hand)
+        self.assertEqual(player.getScore()[0], 3)
+        self.assertEqual(player.getScore()[1], 40310)
+
+    def testPair(self):
+        deck, hand = self.setupDeck()
+        hand.setHand(deck, "D3 S3 H4 D5 H8".split(" "))
+        player = Player(hand)
+        self.assertEqual(player.getScore()[0], 2)
+        self.assertEqual(player.getScore()[1], 308)
+
+    def testHighestValue(self):
+        deck, hand = self.setupDeck()
+        hand.setHand(deck, "D12 S11 H10 D9 H1".split(" "))
+        player = Player(hand)
+        self.assertEqual(player.getScore()[0], 1)
+        self.assertEqual(player.getScore()[1], 12)
+
+    def testTwoPlayersHighestValue(self):
+        deck, hand = self.setupDeck()
+        hand.setHand(deck, "D12 S11 H10 D9 H1".split(" "))
+        player = Player(hand)
+        score = player.getScore()
+        hand.setHand(deck, "D11 D4 D3 D2 D0".split(" "))
+        player = Player(hand)
+
+        self.assertGreater(player.getScore()[0], score[0])
+
+    def setupDeck(self):
+        deck = Deck()
+        hand = Hand()
+        return deck, hand
+
+
+if __name__ == '__main__':
+    unittest.main()
+
+
+
+Hand.py
+class Hand:
+    def __init__(self):
+        self.hand = []
+
+    def setup(self, deck):
+        for _ in range(5):
+            self.hand.append(deck.pullRandomCard())
+
+    def setHand(self, deck, cardsToSet):
+        self.hand = []
+        for card in cardsToSet:
+            self.hand.append(deck.pullSpecificCard(card))
+
+Player.py
+class Player:
+
+    def __init__(self, hand):
+        self.hand = hand
+        self.state = 1
+        self.highestValue = 0
+        self.colors, self.values = self.separateColorsAndValue()
+
+    def getScore(self):
+        self.highestValue = max(self.values)
+        if self.isStraightFlush():
+            self.state = 9
+        elif self.isFourOfAKind():
+            self.state = 8
+        elif self.isFullHouse():
+            self.state = 7
+        elif self.isFlush():
+            self.state = 6
+        elif self.isStraight():
+            self.state = 5
+        elif self.isThreeOfAKind():
+            self.state = 4
+        elif self.isTwoPairs():
+            self.state = 3
+        elif self.pair():
+            self.state = 2
+        return self.state, self.highestValue
+
+    def isFullHouse(self):
+        sortedValues = sorted(self.values)
+        setValues = list(set(sortedValues))
+        if len(setValues) is 2:
+            mi, ma = setValues[0], setValues[1]
+            count1 = sortedValues.count(mi)
+            count2 = sortedValues.count(ma)
+            if 2 in [count1, count2]:
+                self.highestValue = mi if count1 is 3 else ma
+                return True
+        return False
+
+
+    def isFourOfAKind(self):
+        cardsWithSameValue = 0
+        sortedValues = sorted(self.values)
+        for i in range(1, len(sortedValues)):
+            if sortedValues[i] is sortedValues[i-1]:
+                cardsWithSameValue += 1
+            else:
+                cardsWithSameValue = 0
+            if cardsWithSameValue == 3:
+                self.highestValue = sortedValues[i]
+                return True
+        return False
+
+
+    def isStraightFlush(self):
+        sortedValues = sorted(self.values)
+        if len(set(self.colors)) is 1:
+            for i in range(1, len(sortedValues)):
+                if sortedValues[i] is not sortedValues[i-1] + 1:
+                    return False
+            return True
+        return False
+
+    def separateColorsAndValue(self):
+        colors = [card[0] for card in self.hand.hand]
+        values = [int(card[1:]) for card in self.hand.hand]
+        return colors, values
+
+    def isFlush(self):
+        if len(set(self.colors)) is 1:
+            return True
+        return False
+
+    def isStraight(self):
+        sortedValues = sorted(self.values)
+        for i in range(1, len(sortedValues)):
+            if sortedValues[i] is not sortedValues[i - 1] + 1:
+                return False
+        return True
+
+    def isThreeOfAKind(self):
+        setValues = list(set(self.values))
+        for value in setValues:
+            if self.values.count(value) == 3:
+                self.highestValue = value
+                return True
+        return False
+
+    def isTwoPairs(self):
+        setValues = list(set(self.values))
+        if len(setValues) == 3:
+            pairs = []
+            for value in setValues:
+                if self.values.count(value) == 2:
+                    pairs.append(value)
+            pairs = sorted(pairs)
+            self.highestValue = pairs[1]*10000 + pairs[0]*100
+            for value in pairs:
+                setValues.remove(value)
+            singleCard = setValues[0]
+            self.highestValue += singleCard
+            return True
+        return False
+
+    def pair(self):
+        setValues = list(set(self.values))
+        if len(setValues) == 4:
+            for value in self.values:
+                if self.values.count(value) == 2:
+                    self.highestValue = value * 100
+                    setValues.remove(value)
+                    self.highestValue += max(setValues)
+                    return True
+        return False
+
+
+
+Deck.py
+
+import random
+from itertools import product
+class Deck:
+    def __init__(self):
+        self.cardsInDeck = ["%s%s" % (color,number) for color,number in product("HDSC",range(13))]
+
+    def getNumberOfCards(self):
+        return len(self.cardsInDeck)
+
+    def pullRandomCard(self):
+        cardToPull = self.cardsInDeck[int(random.random()*self.getNumberOfCards())]
+        return self.pullCard(cardToPull)
+
+    def pullSpecificCard(self, card):
+        self.cardsInDeck.remove(card)
+        return card
+
+    def pullCard(self, cardToPull):
+        self.cardsInDeck.remove(cardToPull)
+        return cardToPull

@@ -1,0 +1,218 @@
+PyInstaller:
+	"C:\Users\googl\AppData\Local\Programs\Python\Python36-32\Scripts\pyinstaller.exe" --distpath "C:\Drive\Dropbox (Resynergi)\Engineering\PILOT PROGRAM MNGMNT\Software\PLC Graphs Generator" "C:\Drive\Dropbox (Resynergi)\Engineering\PILOT PROGRAM MNGMNT\Software\PLC Graphs Generator\PLC Graphs Generator.py"
+	
+	"C:\Users\googl\AppData\Local\Programs\Python\Python36-32\Scripts\pyinstaller.exe" --noconsole --distpath "C:\Drive\Dropbox (Personal)\TEMP" "C:\Drive\Dropbox (Personal)\apps\Python\clipboardSearchReplace.py"
+	
+THEORY
+	WX Python (GUI) thorough tutorial
+		http://zetcode.com/wxpython/
+
+def notify(erorrMessage):
+    device = "NX on work computer"
+    requests.get(r'https://maker.ifttt.com/trigger/uh_oh/with/key/<KEY>?value1='+device+'&value2='+erorrMessage)
+Go through two (or more) lists:
+	numbers1 = [4,6,8,2,26,2]
+	numbers2 = [,7,8,2177,21,787,6,823,88,21287]
+	for a,b in zip(numbers1,numbers2):
+		print max(a,b)
+Set CMD path variables (python & pip):
+	https://www.youtube.com/watch?v=Y2q_b4ugPWk
+
+Graphs with matplotlib:
+	import matplotlib as graph
+	graph.figure(figsize=(8,6),dpi = 80)
+	graph.subplot(111)
+	x = [...]
+	y = [...]
+	graph.plot(x,y)
+	graph.show()
+	
+Do the same thing n times:
+	thing = ["Hejsan"] * 25
+	
+Go through lines in text file:
+	with open("text.txt","r") as t:
+		for line in t.readlines():
+			print (line)
+			
+Check if str is a (whole) number (e.g., "is '123' a number?"):
+	x = '123'
+	x.isdigit() # True
+			
+Check if something exists on *path*:
+	import os
+	os.path.exists(r"C:\windows")
+			
+Check if file/folder exists on *path*:
+	import os
+	os.path.isfile(r'C:\Windows\sko.exe') # False
+	os.path.isdir(r'C:\Windows\sko.exe') # Dalse
+
+Loop through files and subfolders:
+	for folderName, subfolders, filenames in os.walk(r'D:\Drive\Dropbox\apps\Python\test'):
+		print('The current folder is %s' % folderName)
+		for subfolder in subfolders:
+			print('SUBFOLDER OF %s: %s' % (folderName,subfolder))
+		for filename in filenames:
+			print('FILE INSIDE %s: %s' % (folderName,filename))
+		print('')
+
+Print stuff (printer is renamed "Sister" in Windows):
+	import win32api, os
+	GHOSTSCRIPT_PATH = r"C:\Drive\Dropbox\apps\Howto\files\pythonprint\ghostscript\bin\gswin32.exe"
+	GSPRINT_PATH = r"C:\Drive\Dropbox\apps\Howto\files\pythonprint\gsprint.exe"
+	for root, dirs, files in os.walk(<directory>):
+		for name in files:
+			if "Obsolete" not in root and name.lower().endswith(".pdf"):
+				PDF = os.path.join(root,name)
+				win32api.ShellExecute(0, 'open', GSPRINT_PATH, '-ghostscript "'+GHOSTSCRIPT_PATH+'" -printer "Sister" -c -dPDFFitPage "'+PDF+'"', '.', 0)
+				print("Printed %s" % PDF)
+			
+Cut video at 15 seconds:
+	from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
+	from moviepy.video.io.VideoFileClip import VideoFileClip
+	video = VideoFileClip(r'C:\Users\googl\Videos\output.mp4')
+	print(video.duration)
+	ffmpeg_extract_subclip(video.filename,15,video.duration-15,"test.mp4")
+
+Cut video at 15 seconds and replace original file:
+	from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
+	from moviepy.video.io.VideoFileClip import VideoFileClip
+	from shutil import move
+	import os, random
+	true = True
+
+	video = VideoFileClip(r'C:\test\bunny.mp4')
+	origfile = os.path.join(os.getcwd(),video.filename)
+	tempfile = os.path.join(os.getcwd(),str(random.random()*1000)+'.mp4')
+	ffmpeg_extract_subclip(video.filename,15,video.duration-15.58,tempfile)
+	move(tempfile,origfile)
+	print('Success, new movie length: '+str(video.duration))
+
+File open box:
+	import easygui
+	print(easygui.fileopenbox(msg="Hejsan",title='Open sesame',multiple=True))
+
+Nested for loops:
+	from itertools import product
+	for x,y,z in product(['abc','def','ghi'], range(15,23),range(22,33)):
+		print(x,y,z)
+
+Parse page number ranges:
+	https://stackoverflow.com/questions/712460/interpreting-number-ranges-in-python?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+	def parseIntSet(nputstr=""):
+		selection = set()
+		invalid = set()
+		# tokens are comma seperated values
+		tokens = [x.strip() for x in nputstr.split(',')]
+		for i in tokens:
+			if len(i) > 0:
+				if i[:1] == "<":
+					i = "1-%s"%(i[1:])
+			try:
+				# typically tokens are plain old integers
+				selection.add(int(i))
+			except:
+				# if not, then it might be a range
+				try:
+					token = [int(k.strip()) for k in i.split('-')]
+					if len(token) > 1:
+						token.sort()
+						# we have items seperated by a dash
+						# try to build a valid range
+						first = token[0]
+						last = token[len(token)-1]
+						for x in range(first, last+1):
+							selection.add(x)
+				except:
+					# not an int and not a range...
+					invalid.add(i)
+		# Report invalid tokens before returning valid selection
+		if len(invalid) > 0:
+			print "Invalid set: " + str(invalid)
+		return selection
+	# end parseIntSet
+
+		
+PDF:
+	import PyPDF2
+	Extract text from page:
+		import PyPDF2
+		pdfFileObj = open(r'C:\python\automate_online-materials\meetingminutes.pdf','rb')
+		pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
+		print(pdfReader.numPages)
+		coverPage = pdfReader.getPage(0)
+		print(coverPage.extractText())
+	
+	Combine pages from two PDFs in one: 
+		import PyPDF2 as PDF
+		from itertools import product
+		pdf1File = open(r'C:\python\automate_online-materials\meetingminutes.pdf','rb')
+		pdf2File = open(r'C:\python\automate_online-materials\meetingminutes2.pdf','rb')
+		pdf1Reader = PDF.PdfFileReader(pdf1File)
+		pdf2Reader = PDF.PdfFileReader(pdf2File)
+		pdfWriter = PDF.PdfFileWriter()
+		for pageNum in range(pdf1Reader.numPages):
+			pageObj = pdf1Reader.getPage(pageNum)
+			pdfWriter.addPage(pageObj)
+
+		for pageNum in range(pdf2Reader.numPages):
+			pageObj = pdf2Reader.getPage(pageNum)
+			pdfWriter.addPage(pageObj)
+
+		pdfOutputFile = open("combinedminutes.pdf",'wb')
+		pdfWriter.write(pdfOutputFile)
+		pdfOutputFile.close()
+		pdf2File.close()
+		pdf1File.close()
+
+EXCEL:
+	https://automatetheboringstuff.com/chapter12/
+	import openpyxl
+	Read from workbook:
+		wb = openpyxl.load_workbook("hejsan.xlsx")
+		sheet = wb.active
+		print(sheet['A1'])
+	Write to workbook:
+		wb = openpyxl.load_workbook("Hejsan.xlsx")
+		sheet = wb.active
+		sheet['A1'] = "Hejsan"
+		wb.save("Hejsan2.xlsx")
+		
+	Charts:
+		import openpyxl
+		wb = openpyxl.Workbook()
+		sht = wb.active
+		for i in range(1,100000):
+			sht['A'+str(i)]=i**(1/2)
+		refObj = openpyxl.chart.Reference(sht,min_col=1,min_row=1,max_col=1,max_row=100000)
+		seriesObj = openpyxl.chart.Series(refObj,title="Jakob")
+		chartObj = openpyxl.chart.BarChart()
+		chartObj.title = "åäö"
+		chartObj.append(seriesObj)
+		sht.add_chart(chartObj,'C5')
+		wb.save('xmpl_chart.xlsx')
+
+Get alphabet:
+	import string
+	alphabet = string.ascii_lowercase
+
+Increment value in dict:
+	for letter in dict:
+		dict.setdefault(letter,0)
+		dict.get(letter) += 2
+
+Beautifulsoup, bs, bs4:
+	import requests
+	from bs4 import BeautifulSoup
+	numbers = [i+1 for i in range(68)]
+	for index,number in enumerate(numbers):
+		url = r'https://www.kryssakuten.se/Search.aspx?stype=ord-som-slutar-med&sword=SE&page='+str(number)
+		res = requests.get(url)
+		soup = BeautifulSoup(res.text,features="lxml")
+		links = soup.findAll("a", {"class": "detailslink"})
+		for link in links:
+			candidates.append(link['href'].split('?word=')[-1])
+		print(candidates[-1])
+		print(index)
+	print(candidates)

@@ -1,0 +1,24 @@
+Supervised learning:
+	Regression - continuous value scale
+	Classification - discrete values
+	
+Variables:
+	m = number of training examples ("n")
+	x_0 = 1
+	
+Make sure features are on a similar scale (e.g., 1-5 * 1000 ft^2, 3-4 rooms instead of 1000-5000 ft^2, 3-4 rooms)
+	Want round-ish ellipticals for the contour plots of the cost function.	
+	Rule of thumb: Get scale of values to between -1 and 1.
+	Try to get average to 0, x_bedrooms = (#bedrooms - 2) / 5
+	C:\TEMP\34.png
+	Not needed for normal equation
+
+Use smaller alpha if convergence doesn't happen (if it diverges instead).
+
+Normal equation
+	Solve for th analytically
+	
+OCTAVE
+	subplot(1,2,1) - create a 1x2 plot, access first plot.
+	plot(x,y)
+	subplit(1,2,2) - access second plot space of same subplot as above

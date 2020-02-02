@@ -1,0 +1,34 @@
+LocalStorage/cookies
+	storage = window.localStorage;
+	storage.getItem('index'); // null if not set
+	storage.setItem('index','23');
+	
+WebSockets
+	socket = new WebSocket("wss://connect.websocket.in/PT1333?room_id=3321");
+	socket.onopen = function(e){
+		socket.send("Hej");
+	}
+	
+	socket.onmessage = function(e){
+		// Do something with e.data
+	}
+	
+	socket.onclose = function(e){
+		
+	}
+	
+	socket.onerror = function(e){
+		
+	}
+Get correct radio button value
+	<input type="radio" name="options" value="0"> I'm feeling normal<br>
+	<input type="radio" name="options" value="1"> I'm feeling lucky<br>
+	...
+	buttons = document.getElementsByName("options");
+	buttonVal = "";
+	for(var i = 0; i < buttons.length; i++){
+		if(buttons[i].checked){
+			buttonVal = buttons[i].value
+			// storage.setItem('button',buttonVal);
+		}
+	}

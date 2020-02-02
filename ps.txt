@@ -1,0 +1,104 @@
+Move layer:
+	layer.translate(x,y);
+Resize layer:
+	layer.resize(width%,height%,AnchorPosition.MIDDLECENTER);
+Crop:
+	doc.crop([0,0,width,height]);
+
+Layer dimensions
+	Width of layer:
+		(layer.bounds[3] - layer.bounds[2]).toString().replace(" px","");
+	Height of layer:
+		(layer.bounds[2] - layer.bounds[0]).toString().replace(" px","");
+	Height of canvas: 
+		doc.height.value
+	Width of canvas:
+		doc.width.value
+
+Save current document as png:
+	SavePNG("name");
+	function SavePNG(name) {
+		var doc = app.activeDocument;
+		var file = new File(doc.path + '/saves/'+ name + '.png');
+		var opts = new PNGSaveOptions();
+		opts.quality = 10;
+		doc.saveAs(file,opts,true);
+	}
+
+
+Read from file, string split:
+	var readFile = new File(doc.path + '/script/in.txt');
+	readFile.open('r');
+	var fileContents = "";
+	while(!readFile.eof){
+		fileContents += readFile.readln();
+	}
+	readFile.close();
+	nummer = fileContents.split(',');
+	for(var i = 0; i < nummer.length; i++){
+		alert(nummer[i]);
+	}
+
+Hide and show layers:
+	var layer_1000 = doc.layers.getByName('1');
+	layer_1000.visible = false;
+
+
+var doc = app.activeDocument;
+var layers = doc.layerSets;
+
+var layer_1000 = doc.layers.getByName('1');
+var group_100 = layers.getByName('group-1');
+var group_10 = layers.getByName('group-2');
+var group_1 = layers.getByName('group-3');
+
+var readFile = new File(doc.path + '/script/in.txt');
+readFile.open('r');
+var fileContents = "";
+while(!readFile.eof){
+	fileContents += readFile.readln();
+}
+readFile.close();
+nummer = fileContents.split(',');
+for(var i = 0; i < nummer.length; i++){
+	GenerateImage(nummer[i]+"");
+}
+
+
+function GenerateImage(nummer){
+	//Hide all layers
+	layer_1000.visible = false;
+	for (var i = 0; i < group_100.layers.length; i++){
+		group_100.layers[i].visible = false;
+		group_10.layers[i].visible = false;
+		group_1.layers[i].visible = false;
+	}
+	if(nummer.length == 1){
+		group_1.layers.getByName(nummer).visible = true;
+	} else if(nummer.length == 2){
+		group_10.layers.getByName(nummer[0]).visible = true;
+		group_1.layers.getByName(nummer[1]).visible = true;
+	} else if(nummer.length == 3){
+		group_100.layers.getByName(nummer[0]).visible = true;
+		group_10.layers.getByName(nummer[1]).visible = true;
+		group_1.layers.getByName(nummer[2]).visible = true;
+	} else if(nummer.length == 4){
+		layer_1000.visible = true;
+		group_100.layers.getByName(nummer[1]).visible = true;
+		group_10.layers.getByName(nummer[2]).visible = true;
+		group_1.layers.getByName(nummer[3]).visible = true;
+	} else {
+		alert("That's too long, please come back soon again.");
+	}
+	SavePNG(nummer);
+}
+
+
+function SavePNG(name) {
+	var doc = app.activeDocument;
+	var file = new File(doc.path + '/saves/'+ name + '.png');
+	var opts = new PNGSaveOptions();
+	opts.quality = 10;
+	doc.saveAs(file,opts,true);
+}
+

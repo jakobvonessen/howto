@@ -1,0 +1,11 @@
+https://medium.freecodecamp.org/writing-a-killer-software-engineering-resume-b11c91ef699d
+
+"Be sure to include relevant coursework corresponding to the position that you are applying for. While a course on the History of Italian Gastronomy sounds exceptionally appetizing, it doesn’t have a place in a résumé that is trying to get you a job in computer science.
+
+This will significantly improve the ability of the recruiter and the hiring manager looking at your résumé in deciding whether you are a good fit for the position. And as previously mentioned, a happy recruiter is more likely to give you an interview."
+
+My interviewer questions (Reddit):
+* What do you like most about this job?
+* What evaluation metrics will you use to determine my progress in a years' time?
+* Where is the person who was at this position before me? How long did they stay?
+* What does a typical day of work at this position look like?

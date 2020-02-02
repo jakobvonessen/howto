@@ -1,0 +1,69 @@
+Custom width of table:
+	https://en.wikibooks.org/wiki/LaTeX/Tables#Resize_tables
+	\usepackage{graphicx}
+	% ...
+	\begin{table}
+		\centering
+		\resizebox{0.8\textwidth}{!} {
+		  \begin{tabular}{ccc}
+		  \end{tabular}
+		}
+		\caption{\label{tbl:label}Description.}
+	\end{table}
+
+If and else:
+https://tex.stackexchange.com/questions/29905/how-to-form-if-or-then-conditionals-in-tex?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+	\documentclass{article}
+	\usepackage{xintexpr}
+	\begin{document}
+		\def\x{14}
+		\xintifboolexpr { \x = 1 || \x = 14 }
+		  {True}
+		  {False}
+		\xintifboolexpr { even(\x) && \x < 24 }
+		  {True}
+		  {False}
+		\xintifboolexpr { \x = floor(sqrt(\x))^2 }
+		  {True}
+		  {False}
+		% \pdfstrcmp {text1}{text2} evaluates to 0 if text1 and text2 are equal
+		% to -1 if text1 comes first in lexicographic order, to +1 else
+		% To test if the strings are equal we thus use not(\pdfstrcmp {text1}{text2})
+		% (or we can use the ! as synonym of the "not" function)
+		\xintifboolexpr { 1=1 && (2=3 || 4<= 4 || not(\pdfstrcmp {abc}{def})) && !(2=4)}
+		  {True}
+		  {False}
+		\xintifboolexpr {\pdfstrcmp {abc}{def} = -1}
+		  {True}
+		  {False}
+	\end{document}
+
+Footnotes in headings:
+	Just include
+	\usepackage[stable]{footmisc}
+
+Figure
+	\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.3\textwidth]{frog.jpg}
+	\caption{\label{fig:frog}This frog was uploaded via the project menu.}
+	\end{figure}
+Gantt	
+	\usepackage{pgfgantt}
+	\begin{ganttchart}{1}{12}
+	  \gantttitle{2011}{12} \\
+	  \gantttitlelist{1,...,12}{1} \\
+	  \ganttbar{Task 1}{1}{2} \\
+	  \ganttbar{Final Task}{8}{12}
+	\end{ganttchart}
+Generate latex from server: 
+	https://mike42.me/blog/how-to-generate-professional-quality-pdf-files-from-php
+Symbols/detexify
+	http://detexify.kirelabs.org/classify.html
+
+usepackage:
+	\usepackage{float}   % [H] for tables/figures
+	\usepackage{gensymb} % \celsius, \degree
+	\usepackage[capitalize,noabbrev]{cleveref} % \cref for everything
+	\usepackage[version=3]{mhchem} % \ce (chemical equation), e.g. \ce{co2}, \ce{ {}^{227}_{90}Th+ }
+	\usepackage{tablefootnote}     % \tablefootnote instead of \footnote

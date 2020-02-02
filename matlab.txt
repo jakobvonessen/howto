@@ -1,0 +1,36 @@
+Read from file:
+	fileID = fopen("text.txt");
+	fileText = fscanf(fileID,'%s');
+	fclose(fileID);
+
+Recast string as integer:
+	text = "123"
+	number = sscanf(sprintf('%s ',text{:}),'%f')
+
+Explode/split text:
+	text = "1,2,333,4";
+	delimiter = ",";
+	explosion = strsplit(text,delimiter);
+		
+Create figure:
+	close all;
+	figure(1);
+	hold on;
+	plot([1 2], [1 1]);
+	xlim([0 3]);
+	title("Titel");
+	xlabel("kg/m^3");
+
+Save figure:
+	h = figure(1);
+	saveas(h, "filur.png");
+
+Remove Y axis from figure:
+	set(gca, 'YTick', []);
+
+FUNCTIONS
+	function out = MakePlot(name,range,points)
+	%Do stuff.
+	end
+
+	MakePlot("Hej",1,1);

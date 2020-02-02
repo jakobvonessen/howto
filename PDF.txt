@@ -1,0 +1,42 @@
+PDF
+	Signature generator scanned:
+		https://fontmeme.com/signature-fonts/
+		https://www.pdfescape.com/open/
+		http://lookslikescanned.com
+
+	Export images from PDF:
+		http://www.pdfaid.com/ExtractImages.aspx
+
+	Export tables from PDF:
+		http://tabula.technology/
+		Download, run and go to http://127.0.0.1:8080
+
+	Split/Merge PDF: PDFsam Basic
+		http://www.pdfsam.org/download-pdfsam-basic/
+
+	Convert others into PDF, Remove margins, Rotate pages          
+		http://www.pdfconverto.com/
+	Reduce size
+		https://www.ilovepdf.com/compress_pdf
+WORD
+	Export images from Word:
+		Rename .docx to .zip, go to word --> media.
+EXCEL
+	VLOOKUP, lists: 
+		https://superuser.com/questions/650748/linking-dropdown-lists
+VIDEO
+	Reduce size
+		http://www.videosmaller.com/
+	Cut: 
+		https://ezgif.com/cut-video
+	Crop: 
+		https://ezgif.com/crop-video
+	Merge two or more: 
+		https://www.aconvert.com/video/merge/
+	Convert to MP4: 
+		https://video.online-convert.com/convert-to-mp4
+PHOTO
+	Reduce size png
+		https://tinypng.com/
+	Reduce size jpg
+		http://www.jpegmini.com/

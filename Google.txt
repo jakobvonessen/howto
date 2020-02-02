@@ -1,0 +1,4 @@
+Find date created
+	1. Google the URL (?URL in address bar).
+	2. Append to Google search URL:
+		&as_qdr=y15

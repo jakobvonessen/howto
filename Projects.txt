@@ -1,0 +1,77 @@
+Google Assistant "Bus 40" Action:
+	Tutorial on Wikipedia WhatsApp bot (probably a bit of web scraping): https://repl.it/talk/challenge/Build-a-WhatsApp-bot-in-30-minutes/7673?ref=newsletter
+	
+PYTHON	
+	files.smarter.engineering
+		Files sender for Windows, web (with password) and Android
+		See received files (with zip contents) when going to files.smarter.engineering, press s and type password to send.
+	
+	RGB color getter
+		Use clipboard (snipped) image, copy (separately):
+		255, 15, 25
+		rgb(255, 15, 25)
+		255
+		15
+		25
+
+	Google Photos
+		Poll Google Photos and add new photos to clipboard.
+	Image stitcher
+		Constantly watch clipboard for images
+		If image found, save as variable
+		If next clipboard content is another image, check to see if it has some identical parts to the original image
+			Save first image as a bunch of color value-pixel pairs (maybe one for every 5x5 pixels)
+			2 1 5 9 7
+			4 1 8 7 3
+			9 1 5 5 9
+			2 9 5 2 8
+			Iterate through second image more fine-combing and see if the color value is in the first image
+			4 9 2 0 4
+			2 5 9 3 8
+			3 8 5 
+			Found match!"
+			If match found, look 5 pixels below, to the left, above and to the right
+			    2
+				5 
+			    6
+	More advanced add/search/replace AHK thing
+		GUI
+		Field: Original text
+		Field: New text (live preview)
+		Button: Add to beginning
+		Button: Add to end
+		Radiobutton: Treat every line by itself (grayed out if rows.length == 1)
+		Radiobutton: Treat whole clipboard as one
+		Option: Find "variables" (to put in somewhere) by regex.
+
+Generate LaTex PDF from URL/get/post:
+	Go to h.211.se/latex/?name=&code=
+	Get name.pdf.
+Sonoff
+	Change code on Brian's Sonoff:
+		Monitor LAN and start timer (bool) on disconnect.
+		If disconnect still there at timer time:
+			Turn off power.
+			Wait 30 seconds (delay is fine).
+			Turn on power.
+			Try to connect for 5 minutes.
+				Turn on light if still not connected.
+			Report to spreadsheet that event occurred, with time and what state was set and what happened.
+		Button press (attachInterrupt):
+			Toggle power on/off.
+			Set timer for 30 minutes to not do anything.
+	Make my own Sonoff remote thingy network controller.
+		Controls
+			Network
+			App with buttons
+			Website
+	Make Sonoff react to different temperatures:
+		Use TMP36.
+	Make Sonoff react to hand claps
+		Use either of Tyler's mics.
+		Set timer when first hand clap is heard.
+		If second hand clap within duration:
+			request.
+
+Text editor, looking just like Notepad++ but with absolutely no borders or even scrollbar, just text (that you can resize) and keyboard shortcuts (Ctrl+O, Ctrl+S, Ctrl+N, Ctrl++ (opens file in N++), Ctrl+scroll for changing font size), opens last opened document when starting.
+

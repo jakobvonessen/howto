@@ -1,0 +1,16 @@
+Always make getters and setters, and make them public. Make the instance variables private:
+	class Dog{
+		private int size;
+		public int getSize(){
+			return size;
+		}
+		public void setSize(int newSize){
+			size = newSize;
+		}
+	}
+	
+Can use a reverse while loop, if the expression you're looping over gets tested in the loop:
+	type guess;
+	do {
+		guess = askUser("Make a guess: ");
+	} while (evaluateUserGuess() == false);

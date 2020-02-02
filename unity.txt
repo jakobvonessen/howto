@@ -1,0 +1,122 @@
+PROJECTS
+	Resume
+
+	Business card
+		Platform: ESP8266
+		Features
+			AP mode when not recognizing the internet
+				SSID: Jakob's business card
+				Shows instructions (in Bootstrap or otherwise) when connected
+				Asks for WiFi settings, name of person and phone number (first message: Welcome to Jakob's business card experience! Learn how to use it at smarter.engineering/card.)
+		Hardware
+			Button with single, double and longpress functions
+			
+			Motion sensor
+			
+			Distance sensor (if not too annoying with 5V)
+			
+			IR receiver
+				Make old remote do anything:
+					GET request (either normal or IFTTT)
+					Text (random useful information).
+
+	Multi-touch controls
+		Three-finger drag: Rotate
+
+	3D Model Viewer
+		Like at link, but in 3D
+			https://shop.everydayastronaut.com/products/coaster-set
+		Drag to move around, centered on center point of product
+		Laterz: Load 3D model from URL
+		
+	Document Viewer
+		Load Word or PDF document, extract all pages as PNG and put as blocks.
+		Tools:
+			Maximize page to width - see nothing to the side of the page.
+			Crop whitespace (either Python or at runtime with crop boxes) and all pages one below the other.
+			See all exported images together as a group collage.
+		Navigation:
+			SpaceNavigator:
+				Only X/Y, won't go further than corner of paper.
+				buttons to go forward/back
+			Keyboard:
+				Previous/Next/Home/End, smoothly
+				Up/Down on current page, smoothly
+				If you reach bottom of page, a "Press space to go to the next page" box appears, doing what it says it does if you do what it asks you to do if you want it to do what it says it can do.
+				. to get options dialog with nice, smoothly-sliding, color-changing toggle switches.
+			Mouse:
+				Drag or just move without clicking to pan in document, with different speeds as chosen in options dialog.
+				Scroll to scroll smoothly, with different steps as chosen in options dialog.
+			Options:
+				Page turn speed
+				Scroll speed, step
+				
+	Reklamsnuttar
+		Återskapa videon på https://www.youtube.com/watch?time_continue=53&v=A2heCLCR9Uw
+		(via https://hermodcreationagency.com/inspirationshornan/, via Erik), som en sorts mall att kanske använda till examenspresentationen.
+		
+	PDF text extractor
+		SpaceNavigate around in Document Viewer, drag boxes around areas you want to OCR, then do OCR with Python/whatever ShareX uses, save as text file and export to Kindle.
+		Tools:
+			Same selection on all/even/odd/every nth/specific pages
+		
+	Find the ball
+		"Åh nej, Jonas hamnade i Babylons bibliotek!!! Hannes, Jessica och Josefine, leta reda på !"
+		Animation showing the sun going up and down in smaller/larger circles, things popping up (already existing with visible clip plane moving up?)
+		"Hannes har römt, hitta honom"
+		"Jakob har flyttat" - zoom through random houses (different scene?) to next room
+		"Jonas är upp-och-ner, nu var spelet slut" ... "... INTE! (same style as Spindelpojken och "
+		One book gets teeth like in Harry Potter and eats another one, so they have to find a fourth one
+		Books in order: bronze, silver, gold color (bronze gets eaten), then see-through.
+		SW
+			Loud noises when opening hall door
+		Rick
+			Note with devil ears and "Ask Google to turn on the lights" written on it. When asked, the outlet catches on fire - "Oj oj, här var det fulinstallation av el, det tycker inte Rick om, nu måste vi flytta"
+		Deborah
+		Finish
+			Tally up the points, "Med 500 poäng säkrar Jonas en hedersvärd fjärdeplats"
+			Cheers
+			Point bars, camera moving from bottom to top so you don't know who got how many points until I announce it.
+			Similar to "that's my girl", Melodifestivalen theme playing in the end with light spots moving like real ones do
+			"Och nu till böckerna" where you couldn't previously see the title of the book
+				Unwrap wrapping (possibly as Blender animation) to reveal actual book.
+					One book is a Kindle Paperwhite.
+				OR unwrap to reveal turned-off Kindles that need charging with "Hey Google, charge the Kindle" and the GH says "Ask Alexa." (with Alexa in room, 
+			
+	Find the ball - Finish with a twist
+		Allow user to input numbers, possibly 3D object file, generate video and export for user to download as an MP4.
+	Presentation
+		Start from existing PowerPoint, export to image, find red things and export separately as "imageNumber-red", give depth and put above image.
+		Put scriptableobject with slides and direction (1 to 6, right, or 6 to 3, left in descending order) where slides should be, mark gameObjects to show with scriptableobject containing length radius of camera and where it should look at object from, and whether it should rotate around the object as a step.
+		Transitions either normal or like in Reuters Alexa news app (maybe only between normal slides and the models?)
+	
+SINE CURVED ANIMATION
+	for(var i = 0; i < steps; i++){
+		float sineMultiplier = ((1 - (Mathf.Cos(i / steps * Mathf.PI))) / 2);
+		Vector3 dPos = oPos + diffPos * sineMultiplier;
+		/*GameObject.*/transform.position = dPos;
+		yield return new WaitForEndOfFrame();
+	}
+	
+	void navigateInSpace()
+    {
+        float speed = 5f;
+        transform.Translate(speed * SpaceNavigator.Translation, Space.Self);
+        transform.Rotate(Vector3.up, speed * SpaceNavigator.Rotation.Yaw() * Mathf.Rad2Deg, Space.World);
+        transform.Rotate(Vector3.right, speed * SpaceNavigator.Rotation.Pitch() * Mathf.Rad2Deg, Space.Self);
+        transform.Rotate(Vector3.forward, speed * SpaceNavigator.Rotation.Roll() * Mathf.Rad2Deg, Space.Self);
+    }
+	
+	void showCamPosition()
+    {
+        debugText.text = "Pos: "+transform.position.ToString() + "\nRot: " + transform.eulerAngles.ToString();
+    }
+	
+	//Run file (EXE or other, "like double-clicking it in Windows")
+	using System.Diagnostics;
+	using System;
+ 
+     private static void RunFile()
+     {
+         Process.Start(Environment.CurrentDirectory + @"data.txt");
+     }

@@ -1,0 +1,9 @@
+FFMPEG
+	Cut video (start at 4 and end at 1:00), moderately slow:
+		ffmpeg -i Out33-1.mp4 --ss 00:00:00.757 Out34.mp4
+	Crop video (width:height:startX:startY):
+		ffmpeg -i input.mp4 -filter:v "crop=1280:720:5:4" output.mp4
+	Speed up video (60 times), quite fast:
+		ffmpeg -i input.mp4 -filter:v "setpts=PTS/60" output.mp4
+	Export images from video:
+		ffmpeg -i "C:\Users\googl\Downloads\ezgif.com-gif-maker.gif" -r 1/1 "C:\sko\2\file%03d.jpg"

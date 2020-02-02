@@ -1,0 +1,192 @@
+ESP8266 Arduino via USB:
+	https://github.com/esp8266/Arduino#installing-with-boards-manager	
+ESP8266 AJAX: 
+	https://www.esp8266.com/viewtopic.php?f=8&t=4307
+ESP8266 Solid State Relay:
+	https://www.esp8266.com/blog/index.php/2015/09/07/esp8266-solid-state-relay-controller-project-idea/
+ESP8266 Flash Sonoff with Arduino:
+	https://www.hackster.io/adachsoft_com/sonoff-esp8266-update-firmware-with-arduino-ide-7f6ad6
+Timer:
+	https://github.com/PaulStoffregen/MsTimer2
+Interrupts:
+	https://techtutorialsx.com/2016/12/11/esp8266-external-interrupts/
+WIRELESS
+	Connect to WiFi:
+	#include <esp8266wifi.h>
+	#include <esp8266httpclient.h>
+	
+	void setup(){
+		Serial.begin(115200);
+		WiFi.begin(ssid,password);
+		Serial.print("Connecting");
+		while (WiFi.status() != WL_CONNECTED) {
+			Serial.print(".");
+			delay(200);
+		}
+	}
+	Request (GET):
+	void loop(){
+		if(WiFi.status() == WL_CONNECTED){
+			HTTPClient http;
+			String gURL = "http://h.211.se/fancontrol.php?speed=20s";
+			http.begin(gURL);
+			bool didItWork = (http.GET() > 0) ? true : false;
+			if (didItWork){
+				String contents = http.getString();
+			}
+		}
+	}
+	https://techtutorialsx.com/2016/07/17/esp8266-http-get-requests/
+	
+	
+	Turn Sonoff relay on/off from Google Spreadsheet:
+		1. Create empty spreadsheet. Copy spreadsheet ID from URL.
+		2. Go to Tools-->Script editor and paste in this code:
+			var SS = SpreadsheetApp.openById('SPREADSHEET_ID');
+			var sheet = SS.getSheetByName('Sheet1');
+			
+			function doGet(e){  //doGet(e) runs on GET requests.
+			  var write = e.parameter.write;
+			  var read = e.parameter.read;
+			  var writeCell = e.parameter.writeCell;
+			  var readCell = e.parameter.readCell;  
+			  if(write !== undefined){ //Write to spreadsheet cell writeCell or A1.
+				if(writeCell === undefined)
+				  writeCell = "A1";
+				sheet.getRange(writeCell).setValue(write);
+				return ContentService.createTextOutput("Success, wrote "+write+" in cell "+writeCell);
+			  }
+			  if(read !== undefined){ //Read from spreadsheet cell readCell or A1.
+				if(readCell === undefined)
+				  readCell = "A1";
+				return ContentService.createTextOutput(sheet.getRange(readCell).getValue());
+			  }
+			}
+		3. Publish --> Deploy as web app, with user: me and use by: anyone (even anonymous). Copy script ID from URL.
+		4. Test URL/?read and see that you get the value for A1 back.
+		5. Install HTTPSRedirect in Arduino: https://github.com/electronicsguy/ESP8266/tree/master/HTTPSRedirect.
+		6. Paste in this code:
+			#include <ESP8266WiFi.h>
+			#include <HTTPSRedirect.h>
+			#include <DebugMacros.h>
+
+			const int port = 443;
+			const char* ssid = "SSID";
+			const char* password = "PASSWORD";
+			const char* host = "script.google.com";
+			const char *GScriptId = "SCRIPT ID";
+			// Write to Google Spreadsheet
+			String writeURL = String("/macros/s/") + GScriptId + "/exec?write=";
+			// Read from Google Spreadsheet
+			String readURL = String("/macros/s/") + GScriptId + "/exec?read&readCell=";
+
+			const int powerPin = 12;
+			const int ledPin = 13;
+
+			String payload = "";
+			String ledReadResponse = "";
+			String powerReadResponse = "";
+			String writeResponse = "";
+
+			HTTPSRedirect* client = nullptr;
+
+			void setup() {
+			  pinMode(powerPin,OUTPUT);
+			  pinMode(ledPin,OUTPUT);
+			  Serial.begin(115200);
+			  WiFi.begin(ssid,password);
+			  while (WiFi.status() != WL_CONNECTED){
+				delay(500);
+				Serial.print("\"");
+			  }
+			  Serial.print("Connected to ");
+			  Serial.println(ssid);
+			  Serial.println(WiFi.localIP());
+
+			  client = new HTTPSRedirect(443);
+			  client->setPrintResponseBody(true);
+			  client->setContentTypeHeader("application/json");
+			  int retval = client->connect("script.google.com",port);
+			  Serial.print("Trying to connect to Google...");
+			  while(retval != 1){
+				Serial.print(".");
+				delay(100);
+			  }
+			  Serial.println();
+			  
+			}
+
+			void loop() {
+			  client->GET(readURL+"B1",host);
+			  ledReadResponse = client->getResponseBody();
+			  ledReadResponse.trim();
+			  Serial.println(ledReadResponse);
+			  if(ledReadResponse == "ON"){
+				Serial.println("ledReadResponse är ON.");
+				digitalWrite(ledPin,LOW);
+				client->GET(writeURL+"ON&writeCell=A1",host);
+			  }
+			  if(ledReadResponse == "OFF"){
+				Serial.println("ledReadResponse är OFF.");
+				digitalWrite(ledPin,HIGH);
+				client->GET(writeURL+"OFF&writeCell=A1",host);
+			  }
+
+			  client->GET(readURL+"B2",host);
+			  powerReadResponse = client->getResponseBody();
+			  powerReadResponse.trim();
+			  Serial.println(powerReadResponse);
+			  if(powerReadResponse == "ON"){
+				Serial.println("powerReadResponse är ON.");
+				digitalWrite(powerPin,LOW);
+				client->GET(writeURL+"ON&writeCell=A2",host);
+			  }
+			  if(powerReadResponse == "OFF"){
+				Serial.println("powerReadResponse är OFF.");
+				digitalWrite(powerPin,HIGH);
+				client->GET(writeURL+"OFF&writeCell=A2",host);
+			  }
+			}
+		7. Upload code to Sonoff, change B1 and B2 on spreadsheet and see how it reacts after a couple seconds.
+		
+HARDWARE
+	PIR Motion Sensor: http://henrysbench.capnfatz.com/henrys-bench/arduino-sensors-and-input/arduino-hc-sr501-motion-sensor-tutorial/
+	
+OTA
+
+UP TOP
+  #include <ArduinoOTA.h>
+  #define SENSORNAME "SENSORNAME"
+  #define OTApassword "yourOTApassword" //the password you will need to enter to upload remotely via the ArduinoIDE
+  int OTAport = 8266;
+
+SETUP
+  //Arduino OTA
+  //OTA SETUP
+  ArduinoOTA.setPort(OTAport);
+  // Hostname defaults to esp8266-[ChipID]
+  ArduinoOTA.setHostname(SENSORNAME);
+  // No authentication by default
+  ArduinoOTA.setPassword((const char *)OTApassword);
+
+  ArduinoOTA.onStart([]() {
+    Serial.println("Starting");
+  });
+  ArduinoOTA.onEnd([]() {
+    Serial.println("\nEnd");
+  });
+  ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
+    Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
+  });
+  ArduinoOTA.onError([](ota_error_t error) {
+    Serial.printf("Error[%u]: ", error);
+    if (error == OTA_AUTH_ERROR) Serial.println("Auth Failed");
+    else if (error == OTA_BEGIN_ERROR) Serial.println("Begin Failed");
+    else if (error == OTA_CONNECT_ERROR) Serial.println("Connect Failed");
+    else if (error == OTA_RECEIVE_ERROR) Serial.println("Receive Failed");
+    else if (error == OTA_END_ERROR) Serial.println("End Failed");
+  });
+  ArduinoOTA.begin();
+  
+LOOP
+  ArduinoOTA.handle();

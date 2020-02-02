@@ -1,0 +1,13 @@
+New folder
+	git init
+	git add file.txt
+	git commit -m "Initial commit"
+touch .gitignore
+	Fyll den med namn på filer som du inte vill ladda upp:
+	log.txt
+	/dirToIgnore
+	*.log
+Lägga till en branch
+	git branch branchName
+Flytta till en annan branch
+	git checkout branchName

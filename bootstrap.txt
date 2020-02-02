@@ -1,0 +1,88 @@
+https://www.taniarascia.com/what-is-bootstrap-and-how-do-i-use-it/
+
+LANDING PAGE
+	page.html:
+		<!DOCTYPE html>
+		<html>
+		<head>
+			<title>Allt är för dyrt!</title>
+			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" crossorigin="anonymous">
+			<link rel="stylesheet" type="text/css" href="style.css">
+			<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+			<link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+		</head>
+		<body>
+			<div class="navbar navbar-default navbar-fixed-top">
+				<div class="container">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-nav-demo" aria-expanded="false">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a href="#" class="navbar-brand"><i class="fas fa-paw"></i> <strong>Det är för dyrt!</strong></a>
+					</div>
+					<div class="collapse navbar-collapse" id="bs-nav-demo">
+						<ul class="nav navbar-nav">
+							<li class="active"><a href="#">Home</a></li>
+							<li><a href="#">About</a></li>
+							<li><a href="#">Contact</a></li>
+						</ul>
+						<ul class="nav navbar-nav navbar-right">
+							<li><a href="#">Signup <i class="fas fa-user-plus"></i></a></li>
+							<li><a href="#">Login <i class="fas fa-user"></i></a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div id="centercontent">
+							<h1>Det är för dyrt!</h1>
+							<h3>Mat ska inte kosta skjortan.</h3>
+							<hr>
+							<button class="btn btn-default btn-lg"><strong>Stöd kampen! <i class="fab fa-apple"></i></strong></button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+		</body>
+		</html>
+
+	style.css:	
+		html {
+			height: 100%;
+		}
+
+		body {
+			margin-top: 70px;
+			background: url(https://imgoat.com/uploads/a79ea27c27/154400.jpeg);
+			background-size: cover;
+			background-position: center;
+			font-family: 'Lato';
+			color:white;
+		}
+
+		#centercontent {
+			text-align: center;
+			padding: 25%;
+			text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+						 0px 8px 13px rgba(0,0,0,0.1),
+						 0px 18px 23px rgba(0,0,0,0.1);
+		}
+
+		h1 {
+			font-weight: 700;
+			font-size: 5em;
+		}
+
+		hr {
+			width: 400px;
+			border-top: 1px solid #f8f8f8;
+			border-bottom: 2px solid rgba(0,0,0,0.2);
+		}
