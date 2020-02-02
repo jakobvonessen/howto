@@ -5,3 +5,7 @@ file_get_contents doesn't work on server:
 		file_get_contents("http://jakobve.com/file.php")
 	instead of 
 		file_get_contents("file.php")
+echo html as text:
+	$html = file_get_contents("yada.html");
+	header("Content-Type: text/plain");
+	echo $html;
