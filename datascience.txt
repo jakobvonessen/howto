@@ -1,0 +1,22 @@
+https://www.youtube.com/watch?v=ua-CiDNNj30
+Steps:
+	Planning
+		Define goals
+		Organize resources
+		Coordinate people
+		Schedule project
+	Data prep
+		Get data
+		Clean data
+		Explore data
+		Refine data
+	Modeling
+		Create model
+		Validate model
+		Evaluate model
+		Refine model
+	Follow up
+		Present model
+		Deploy model
+		Revisit model
+		Archive assets

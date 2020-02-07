@@ -1,3 +1,12 @@
+matplotlib
+	import matplotlib.pyplot as plt
+	x = [1,3,5,7,8]
+	y = [6,8,33,6,2]
+	plt.plot(x, y, 'o')
+	plt.title("Nice graph")
+	plt.show()
+	plt.savefig("fig.png")	
+
 PyInstaller:
 	"C:\Users\googl\AppData\Local\Programs\Python\Python36-32\Scripts\pyinstaller.exe" --distpath "C:\Drive\Dropbox (Resynergi)\Engineering\PILOT PROGRAM MNGMNT\Software\PLC Graphs Generator" "C:\Drive\Dropbox (Resynergi)\Engineering\PILOT PROGRAM MNGMNT\Software\PLC Graphs Generator\PLC Graphs Generator.py"
 	
