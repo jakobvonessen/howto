@@ -1,3 +1,6 @@
+Book
+	?https://github.com/loveunk/Deep-learning-books/blob/master/1.%20Machine%20Leaning%20and%20Deep%20Learning/Hands%20on%20Machine%20Learning%20with%20Scikit%20Learn%20Keras%20and%20TensorFlow%202nd%20Edition-2019.pdf
+
 Supervised learning:
 	Regression - continuous value scale
 	Classification - discrete values
