@@ -1,4 +1,26 @@
-Linear regression
+K Nearest Neighbors Regression:
+	import matplotlib.pyplot as plt
+	import numpy as np
+	import sklearn.neighbors
+
+	X = range(1, 7)
+	y = [11, 20, 35, 22, 15, 77]
+
+	model = sklearn.neighbors.KNeighborsRegressor(n_neighbors=3)
+	model.fit(np.array(X).reshape(-1, 1), y)
+
+	xPred = [min(X), max(X)]
+	yPred = [model.predict([[x]]) for x in xPred]
+	plt.scatter(X, y)
+	plt.plot(xPred, yPred, 'r')
+
+	plt.show()
+
+	x = [[2.5]] # Same as np.array([2.5]).reshape(-1, 1)
+	prediction = model.predict(x)
+	print(prediction)
+
+Linear regression:
 	import matplotlib.pyplot as plt
 	import numpy as np
 	import sklearn.linear_model
@@ -21,7 +43,7 @@ Linear regression
 	print(prediction)
 
 Book
-	?https://github.com/loveunk/Deep-learning-books/blob/master/1.%20Machine%20Leaning%20and%20Deep%20Learning/Hands%20on%20Machine%20Learning%20with%20Scikit%20Learn%20Keras%20and%20TensorFlow%202nd%20Edition-2019.pdf
+	https://github.com/loveunk/Deep-learning-books/blob/master/1.%20Machine%20Leaning%20and%20Deep%20Learning/Hands%20on%20Machine%20Learning%20with%20Scikit%20Learn%20Keras%20and%20TensorFlow%202nd%20Edition-2019.pdf
 
 Supervised learning:
 	Regression - continuous value scale
