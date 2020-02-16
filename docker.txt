@@ -1,0 +1,7 @@
+Setup guide
+	https://docs.docker.com/get-started/
+Training docker image
+	https://spacealliancesweden.slack.com/files/USLA1CGTH/FU2TMU3LP/docker-compose.yaml?origin_team=TSJEGUZRT&origin_channel=CSJEGV745
+	If at /path/to/docker-compose.yaml, do
+		cd /path/to/
+		docker-compose up
