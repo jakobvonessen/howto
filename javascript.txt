@@ -92,3 +92,6 @@ Paste:
 			</script>
 		</body>
 	</html>
+	
+Check if shift is held down:
+	if(e.shiftKey) //True: held down.
