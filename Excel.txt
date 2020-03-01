@@ -2,3 +2,4 @@ Excel shortcuts:
 	Name manager		Ctrl 	F3
 	VBA: Editor			Alt		F11
 	VBA: Macros			Alt		F8
+	Repeat last action			F4
