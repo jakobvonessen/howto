@@ -1,3 +1,10 @@
+regex
+	text = "#2020-02-26	Friggagatan 13A 2 rum, 77 m²	3 450 000 kr"
+	dateRegex = "(20[\d-]{8})\s"
+	dates = re.findall(dateRegex, text)
+	for date in dates:
+		print(date)
+
 matplotlib
 	import matplotlib.pyplot as plt
 	x = [1,3,5,7,8]
